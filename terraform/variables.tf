@@ -1,6 +1,6 @@
 variable "project_id" {
   type = string
-  default = "future-loader-358812"
+  default = "gold-subset-359113"
 }
 
 variable "region" {
@@ -16,4 +16,9 @@ variable "zone" {
 variable "cluster_name" {
   type = string
   default = "kf-cluster"
+}
+
+variable "cluster_machine_type" {
+  type = string
+  default = "e2-standard-4"
 }
