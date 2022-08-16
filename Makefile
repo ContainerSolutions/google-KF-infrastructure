@@ -40,16 +40,23 @@ gcloud_login:
 	gcloud auth login
 	gcloud components update
 
-auth: cluster_get_cred gcloud_auth gcloud_login
+auth: cluster_get_cred gcloud_auth
 
 download_asm:
+	if [ -d asm ]; \
+	then rm -r asm; \
+	fi
+
 	mkdir asm
 	curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_1.7 > asm/install_asm
 	curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_1.7.sha256 > asm/install_asm.sha256
-	#sha256sum -c --ignore-missing install_asm.sha256
 	chmod +x asm/install_asm
 
 validate_cluster:
+	if [ -d validate_asm ]; \
+    then rm -r validate_asm; \
+    fi
+
 	mkdir "validate_asm"
 	./asm/install_asm \
       --project_id $(PROJECT_ID)\
