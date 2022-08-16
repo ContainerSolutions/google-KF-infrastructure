@@ -10,6 +10,11 @@ resource "google_container_cluster" "kfcluster" {
   location                 = var.zone
   initial_node_count       = 1
 
+  networking_mode = "VPC_NATIVE"
+
+  node_version    = data.google_container_engine_versions.central1a.latest_node_version
+  min_master_version = data.google_container_engine_versions.central1a.latest_node_version
+
   addons_config {
     network_policy_config {
       disabled = false
@@ -20,17 +25,16 @@ resource "google_container_cluster" "kfcluster" {
     workload_pool = "${data.google_project.project.project_id}.svc.id.goog"
   }
 
-  networking_mode = "VPC_NATIVE"
-
-  node_version    = data.google_container_engine_versions.central1a.latest_node_version
-  min_master_version = data.google_container_engine_versions.central1a.latest_node_version
   
   resource_labels = {
     "mesh_id" = "proj-${data.google_project.project.number}"
   }
 
-  ip_allocation_policy {
-  }
+  ip_allocation_policy {}
+
+#  node_config {
+#    machine_type = var.cluster_machine_type
+#  }
 }
 
 resource "google_container_node_pool" "main" {
@@ -53,4 +57,10 @@ resource "google_container_node_pool" "main" {
       disable-legacy-endpoints = "true"
     }
   }
+}
+
+resource "google_artifact_registry_repository" "kf_cluster_repo" {
+  location      = var.region
+  repository_id = var.cluster_name
+  format        = "DOCKER"
 }
