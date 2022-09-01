@@ -46,10 +46,10 @@ create_cluster:
 		-var project_id="$(PROJECT_ID)"
 
 cluster_get_cred: create_cluster
-	gcloud config set project $(PROJECT_ID)
-	gcloud container clusters get-credentials ${CLUSTER_NAME} \
-		--project=$(PROJECT_ID) \
-		--zone=${CLUSTER_LOCATION}
+ 	gcloud config set project $PROJECT_ID
+ 	gcloud container clusters get-credentials ${CLUSTER_NAME} \
+    	--project=${PROJECT_ID} \
+    	--zone=${CLUSTER_LOCATION}
 
 install_cluster: create_cluster cluster_get_cred
 
