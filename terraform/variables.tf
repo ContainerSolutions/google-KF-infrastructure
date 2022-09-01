@@ -1,24 +1,24 @@
 variable "project_id" {
-  type = string
-  default = "future-loader-358812"
+  type    = string
+  default = "causal-jigsaw-360208"
 }
 
 variable "region" {
-  type = string
+  type    = string
   default = "us-central1"
 }
 
 variable "zone" {
-  type  = string
+  type    = string
   default = "us-central1-a"
 }
 
 variable "cluster_name" {
-  type = string
+  type    = string
   default = "kf-cluster"
 }
 
 variable "cluster_machine_type" {
-  type = string
+  type    = string
   default = "e2-standard-4"
 }

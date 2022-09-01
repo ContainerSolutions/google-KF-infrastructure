@@ -6,13 +6,13 @@ data "google_container_engine_versions" "central1a" {
 }
 
 resource "google_container_cluster" "kfcluster" {
-  name                     = var.cluster_name
-  location                 = var.zone
-  initial_node_count       = 1
+  name               = var.cluster_name
+  location           = var.zone
+  initial_node_count = 1
 
   networking_mode = "VPC_NATIVE"
 
-  node_version    = data.google_container_engine_versions.central1a.latest_node_version
+  node_version       = data.google_container_engine_versions.central1a.latest_node_version
   min_master_version = data.google_container_engine_versions.central1a.latest_node_version
 
   addons_config {
@@ -25,26 +25,19 @@ resource "google_container_cluster" "kfcluster" {
     workload_pool = "${data.google_project.project.project_id}.svc.id.goog"
   }
 
-  
+
   resource_labels = {
     "mesh_id" = "proj-${data.google_project.project.number}"
   }
 
   ip_allocation_policy {}
 
-#  node_config {
-#    machine_type = var.cluster_machine_type
-#  }
 }
 
 resource "google_container_node_pool" "main" {
   location           = var.zone
   cluster            = google_container_cluster.kfcluster.name
   initial_node_count = 3
-
-  lifecycle {
-    prevent_destroy = true
-  }
 
   node_config {
     machine_type = var.cluster_machine_type
