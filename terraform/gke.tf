@@ -44,7 +44,7 @@ resource "google_container_node_pool" "main" {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
     ]
-    service_account = google_service_account.cluster_service_account.email
+    service_account = data.google_service_account.cluster_service_account.email
 
     metadata = {
       disable-legacy-endpoints = "true"

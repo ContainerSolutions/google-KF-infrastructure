@@ -5,7 +5,7 @@ SHELL         := /bin/bash
 #MAKEFLAGS     += --warn-undefined-variables
 .SHELLFLAGS   := -euo pipefail -c
 
-export $(PROJECT_ID)
+export ${PROJECT_ID}
 export CLUSTER_PROJECT_ID=$(PROJECT_ID)
 export CLUSTER_NAME=kf-cluster
 export COMPUTE_ZONE=us-central1-a
@@ -39,14 +39,17 @@ auth: cluster_get_cred gcloud_auth
 
 create_cluster:
 	cd ./terraform/; \
+	  terraform init; \
 	  terraform apply \
 	  	--auto-approve \
-	  	-var cluster_name="kf-cluster-${USER}"
+	  	-var cluster_name="kf-cluster-${USER}" \
+		-var project_id="$(PROJECT_ID)"
 
 cluster_get_cred: create_cluster
-	gcloud container clusters get-credentials ${CLUSTER_NAME} \
-			--project=$(PROJECT_ID) \
-			--zone=${CLUSTER_LOCATION}
+    gcloud config set project $(PROJECT_ID) \
+    gcloud container clusters get-credentials ${CLUSTER_NAME} \
+		--project=$(PROJECT_ID) \
+		--zone=${CLUSTER_LOCATION}
 
 install_cluster: create_cluster cluster_get_cred
 

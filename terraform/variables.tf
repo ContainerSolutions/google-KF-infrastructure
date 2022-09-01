@@ -1,6 +1,5 @@
 variable "project_id" {
   type    = string
-  default = "causal-jigsaw-360208"
 }
 
 variable "region" {
@@ -15,7 +14,6 @@ variable "zone" {
 
 variable "cluster_name" {
   type    = string
-  default = "kf-cluster"
 }
 
 variable "cluster_machine_type" {
