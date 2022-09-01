@@ -42,12 +42,12 @@ create_cluster:
 	  terraform init; \
 	  terraform apply \
 	  	--auto-approve \
-	  	-var cluster_name="kf-cluster-${USER}" \
+	  	-var cluster_name="kf-cluster-$(subst _,-,$(USER))" \
 		-var project_id="$(PROJECT_ID)"
 
 cluster_get_cred: create_cluster
-    gcloud config set project $(PROJECT_ID)
-    gcloud container clusters get-credentials ${CLUSTER_NAME} \
+	gcloud config set project $(PROJECT_ID)
+	gcloud container clusters get-credentials ${CLUSTER_NAME} \
 		--project=$(PROJECT_ID) \
 		--zone=${CLUSTER_LOCATION}
 
